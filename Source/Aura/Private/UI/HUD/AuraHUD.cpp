@@ -24,12 +24,13 @@ void AAuraHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySyst
 	checkf(WidgetControllerClass, TEXT("OverlayWidgetControllerClass is not set in BP_AuraHUD"));
 	
 	UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), OverlayWidgetClass);
-	OverlayWidget = Cast<UAuraUserWidget>(Widget);
+	OverlayWidget = Cast<UAuraUserWidget>(Widget); // REVIEW: Do we even need this cast?
 
 	const FWidgetControllerParams WidgetControllerParams(PC, PS, ASC, AS);
 	UOverlayWidgetController* OverlayWidgetController = GetOverlayWidgetController(WidgetControllerParams);
 
 	OverlayWidget->SetWidgetController(OverlayWidgetController);
-	
+	OverlayWidgetController->BroadcastInitialValues();
 	OverlayWidget->AddToViewport();
+	// Widget->AddToViewport();
 }
