@@ -37,11 +37,6 @@ void AAuraCharacter::OnRep_PlayerState()
 
 	// Init ability actor info for client
 	InitAbilityActorInfo();
-	
-	// // Init HUD for the client
-	// AAuraHUD* AuraHUD = GetController;
-	// check(AuraHUD);
-	// AuraHUD->InitOverlay(GetWorld()->GetFirstPlayerController(), GetPlayerState(), AbilitySystemComponent, AttributeSet);
 }
 
 void AAuraCharacter::InitAbilityActorInfo()

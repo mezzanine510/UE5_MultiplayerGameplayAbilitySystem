@@ -6,18 +6,6 @@
 #include "UI/WidgetController/OverlayWidgetController.h"
 
 
-UOverlayWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetControllerParams& WCParams)
-{
-	if (WidgetController == nullptr)
-	{
-		WidgetController = NewObject<UOverlayWidgetController>(this, WidgetControllerClass);
-		WidgetController->SetWidgetControllerParams(WCParams);
-		return WidgetController;
-	}
-
-	return WidgetController;
-}
-
 void AAuraHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS)
 {
 	checkf(OverlayWidgetClass, TEXT("OverlayWidgetClass is not set in BP_AuraHUD"));
@@ -30,7 +18,25 @@ void AAuraHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySyst
 	UOverlayWidgetController* OverlayWidgetController = GetOverlayWidgetController(WidgetControllerParams);
 
 	OverlayWidget->SetWidgetController(OverlayWidgetController);
-	OverlayWidgetController->BroadcastInitialValues();
+	OverlayWidgetController->BroadcastInitialValues(); // This needs to happen after the WidgetController is set
 	OverlayWidget->AddToViewport();
 	// Widget->AddToViewport();
+}
+
+UOverlayWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetControllerParams& WCParams)
+{
+	if (WidgetController == nullptr)
+	{
+		CreateWidgetController(WCParams);
+		return WidgetController;
+	}
+
+	return WidgetController;
+}
+
+void AAuraHUD::CreateWidgetController(const FWidgetControllerParams& WCParams)
+{
+	WidgetController = NewObject<UOverlayWidgetController>(this, WidgetControllerClass);
+	WidgetController->SetWidgetControllerParams(WCParams);
+	WidgetController->BindCallbacksToDependencies();
 }
