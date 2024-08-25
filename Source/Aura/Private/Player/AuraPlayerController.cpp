@@ -12,25 +12,18 @@ AAuraPlayerController::AAuraPlayerController()
 	bReplicates = true;
 }
 
-void AAuraPlayerController::PlayerTick(float DeltaTime)
-{
-	Super::PlayerTick(DeltaTime);
-
-	CursorTrace();
-}
-
 void AAuraPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
 	check(AuraContext);
 
-	UEnhancedInputLocalPlayerSubsystem* Subsystem = 
-	ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-	check(Subsystem);
-
-	Subsystem->AddMappingContext(AuraContext, 0);
-
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+	if (Subsystem)
+	{
+		Subsystem->AddMappingContext(AuraContext, 0);
+	}
+	
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
 
@@ -38,6 +31,13 @@ void AAuraPlayerController::BeginPlay()
 	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 	InputModeData.SetHideCursorDuringCapture(false);
 	SetInputMode(InputModeData);
+}
+
+void AAuraPlayerController::PlayerTick(float DeltaTime)
+{
+	Super::PlayerTick(DeltaTime);
+
+	CursorTrace();
 }
 
 void AAuraPlayerController::SetupInputComponent()
@@ -74,6 +74,7 @@ void AAuraPlayerController::CursorTrace()
 	LastActor = ThisActor;
 	ThisActor = CursorHit.GetActor();
 
+	// TODO: This needs refactoring - simplify the logic
 	/**
 	 * Line trace for cursor, there are several scenarios to consider:
 	 * A. LastActor is nullptr and ThisActor is nullptr
