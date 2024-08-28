@@ -22,8 +22,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 
 	// Bind OnHealthChanged
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetHealthAttribute())
-		.AddLambda(
-			[this](const FOnAttributeChangeData& Data)
+		.AddLambda([this](const FOnAttributeChangeData& Data)
 			{
 				OnHealthChanged.Broadcast(Data.NewValue);
 			}
@@ -31,8 +30,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 
 	// Bind OnMaxHealthChanged
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetMaxHealthAttribute())
-		.AddLambda(
-			[this](const FOnAttributeChangeData& Data)
+		.AddLambda([this](const FOnAttributeChangeData& Data)
 			{
 				OnMaxHealthChanged.Broadcast(Data.NewValue);
 			}
@@ -40,8 +38,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 
 	// Bind OnManaChanged
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetManaAttribute())
-		.AddLambda(
-			[this](const FOnAttributeChangeData& Data)
+		.AddLambda([this](const FOnAttributeChangeData& Data)
 			{
 				OnManaChanged.Broadcast(Data.NewValue);
 			}
@@ -49,9 +46,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 
 	// Bind OnMaxManaChanged
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetMaxManaAttribute())
-		.AddLambda
-		(
-			[this](const FOnAttributeChangeData& Data)
+		.AddLambda([this](const FOnAttributeChangeData& Data)
 			{
 				OnMaxManaChanged.Broadcast(Data.NewValue);
 			}
