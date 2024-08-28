@@ -54,9 +54,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	
 	// Bind to EffectAssetTags
 	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTags
-		.AddLambda
-		(
-			[this](const FGameplayTagContainer& AssetTags)
+		.AddLambda([this](const FGameplayTagContainer& AssetTags)
 			{
 				for (const FGameplayTag& Tag : AssetTags)
 				{
