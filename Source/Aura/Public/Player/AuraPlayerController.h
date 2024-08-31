@@ -37,7 +37,7 @@ private:
 	TObjectPtr<UInputAction> MoveAction;
 
 	void Move(const FInputActionValue& Value);
-
+	
 	void CursorTrace();
 	
 	TScriptInterface<IEnemyInterface> LastActor;
