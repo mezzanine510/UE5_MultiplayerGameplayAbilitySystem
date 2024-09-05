@@ -18,6 +18,7 @@ struct FWidgetControllerParams
 	GENERATED_BODY()
 
 	FWidgetControllerParams() {}
+	
 	FWidgetControllerParams(
 		APlayerController* PC,
 		APlayerState* PS,
