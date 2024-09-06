@@ -50,6 +50,14 @@ struct FEffectProperties
 };
 
 
+// typedef is specific to the FGameplayAttribute() signature, so we can't use it for other types
+// typedef TBaseStaticDelegateInstance<FGameplayAttribute(), FDefaultDelegateUserPolicy>::FFuncPtr FAttributeFunctionPtr;
+
+// We're defining a template for static function pointers (instead of a typedef), which is a generic signature
+template<class T>
+using TStaticFunctionPtr = typename TBaseStaticDelegateInstance<T, FDefaultDelegateUserPolicy>::FFuncPtr;
+
+
 /**
  * 
  */
@@ -65,6 +73,8 @@ public:
 
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+
+	TMap<FGameplayTag, TStaticFunctionPtr<FGameplayAttribute()>> TagsToAttributes;
 
 	
 	/*
