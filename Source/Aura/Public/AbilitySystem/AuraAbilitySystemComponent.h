@@ -24,7 +24,10 @@ public:
 	
 	void AbilityActorInfoSet();
 
-	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartingAbilityClasses);
+	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilityClasses);
+
+	void AbilityInputTagHeld(const FGameplayTag& InputTag);
+	void AbilityInputTagReleased(const FGameplayTag& InputTag);
 	
 protected:
 	void EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle);
