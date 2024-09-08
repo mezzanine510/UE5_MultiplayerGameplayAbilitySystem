@@ -32,6 +32,7 @@ public:
 	
 protected:
 	virtual void BeginPlay() override;
+	void AutoRun();
 	virtual void SetupInputComponent() override;
 	
 private:
@@ -42,11 +43,12 @@ private:
 	TObjectPtr<UInputAction> MoveAction;
 
 	void Move(const FInputActionValue& Value);
-	
+
+	// Cursor trace vars
 	void CursorTrace();
-	
 	TScriptInterface<IEnemyInterface> LastActor;
 	TScriptInterface<IEnemyInterface> ThisActor;
+	FHitResult CursorHit;
 
 	void AbilityInputTagPressed(FGameplayTag InputTag);
 	void AbilityInputTagReleased(FGameplayTag InputTag);
