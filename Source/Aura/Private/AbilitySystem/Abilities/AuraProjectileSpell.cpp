@@ -13,16 +13,16 @@ void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Hand
                                            const FGameplayEventData* TriggerEventData)
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
+}
 
-	UE_LOG(LogTemp, Warning, TEXT("UAuraProjectileSpell::ActivateAbility"));
-	const bool bIsServer = HasAuthority(&ActivationInfo);
+void UAuraProjectileSpell::SpawnProjectile()
+{
+	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if (!bIsServer) return;
-	UE_LOG(LogTemp, Warning, TEXT("IsServer"));
 
 	ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo());
 	if (CombatInterface)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("CombatInterface is valid"));
 		const FVector SocketLocation = CombatInterface->GetCombatSocketLocation();
 		FTransform SpawnTransform;
 		SpawnTransform.SetLocation(SocketLocation);
