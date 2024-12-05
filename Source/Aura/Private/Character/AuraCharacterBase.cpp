@@ -4,16 +4,17 @@
 
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
-		Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
-		Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
-		Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	
+	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
+	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
+	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
