@@ -3,8 +3,10 @@
 
 #include "Actor/AuraProjectile.h"
 
-#include "NiagaraFunctionLibrary.h"
 #include "Aura/Aura.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
+#include "NiagaraFunctionLibrary.h"
 #include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
@@ -40,6 +42,8 @@ void AAuraProjectile::BeginPlay()
 	Sphere->OnComponentBeginOverlap.AddDynamic(this, &AAuraProjectile::OnSphereOverlap);
 
 	// Spawn sound, create a component, attach to root
+	// May be a good idea to implement sound components for all projectiles in all projects, such as rocket launcher in TU
+	// Note: bStopWhenAttachedToDestroyed is set to true here to avoid a crash on client if the projectile is already destroyed when we try to call LoopingSoundComponent->Stop(), which might be a stale ptr
 	LoopingSoundComponent = UGameplayStatics::SpawnSoundAttached(LoopingSound, RootComponent, NAME_None, FVector::ZeroVector, EAttachLocation::KeepRelativeOffset, true);
 }
 
@@ -51,6 +55,12 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 	
 	if (HasAuthority())
 	{
+		// Alternatively, I could ApplyGameplayEffectSpecToTarget
+		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
+		{
+			TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
+		}
+		
 		Destroy();
 	}
 	else
